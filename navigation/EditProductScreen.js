@@ -1,13 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function EditProductScreen({ route }) {
+export default function EditProductScreen({ route, navigation }) {
   const { product } = route.params;
   const [productName, setProductName] = useState(product.name);
   const [productDescription, setProductDescription] = useState(product.description);
   const [productValue, setProductValue] = useState(product.value ? product.value.toString() : '');
 
-  // Restante do código para a edição do produto
+  const handleEditProduct = () => {
+    // Aqui você pode definir o código para atualizar o produto com os novos valores
+    // Por exemplo, uma chamada para uma API de edição de produto
+    updateProductOnServer(product.id, productName, productDescription, parseFloat(productValue));
+
+    // Após a edição, você pode navegar de volta para a tela de detalhes do produto com as informações atualizadas
+    const updatedProduct = {
+      ...product,
+      name: productName,
+      description: productDescription,
+      value: parseFloat(productValue),
+    };
+
+    navigation.navigate('Detalhes do Produto', { product: updatedProduct });
+  };
+
+  // Função fictícia para atualizar o produto na API ou no estado global
+  const updateProductOnServer = (productId, name, description, value) => {
+    // Aqui você implementa a lógica para atualizar o produto
+    // Pode ser uma chamada para uma API, uma atualização no estado global, etc.
+  };
 
   return (
     <View style={styles.container}>
@@ -31,7 +51,7 @@ export default function EditProductScreen({ route }) {
         value={productValue}
         onChangeText={setProductValue}
       />
-      <Button title="Salvar" onPress={() => handleEditProduct()} />
+      <Button title="Salvar" onPress={handleEditProduct} />
     </View>
   );
 }

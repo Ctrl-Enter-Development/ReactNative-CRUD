@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 export function UserStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Usuarios" component={UserScreen} />
+      <Stack.Screen name="Produtos" component={ProductScreen} />
     </Stack.Navigator>
   );
 }

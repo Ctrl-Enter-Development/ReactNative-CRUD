@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useProductContext } from './ProductContext';
 
-export default function AddProductScreen({ navigation }) {
-  const { addProductToList } = useProductContext();
-  const [productName, setProductName] = useState('');
-  const [productDescription, setProductDescription] = useState('');
-  const [productValue, setProductValue] = useState('');
+export default function EditProductScreen({ route, navigation }) {
+  const { product } = route.params;
+  const { updateProduct } = useProductContext();
+  const [productName, setProductName] = useState(product.name);
+  const [productDescription, setProductDescription] = useState(product.description);
+  const [productValue, setProductValue] = useState(product.value ? product.value.toString() : '');
 
-  const handleAddProduct = () => {
+  const handleEditProduct = () => {
     if (!productName || !productDescription || !productValue) {
       return;
     }
 
-    const newProduct = {
-      id: Date.now().toString(),
+    const editedProduct = {
+      id: product.id,
       name: productName,
       description: productDescription,
       value: parseFloat(productValue),
     };
 
-    addProductToList(newProduct);
-    navigation.goBack();
+    updateProduct(editedProduct);
+    navigation.navigate('Detalhes do Produto', { product: editedProduct });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Adicionar Produto</Text>
+      <Text style={styles.heading}>Editar Produto</Text>
       <TextInput
         style={styles.input}
         placeholder="Nome do Produto"
@@ -46,7 +47,7 @@ export default function AddProductScreen({ navigation }) {
         value={productValue}
         onChangeText={setProductValue}
       />
-      <Button title="Adicionar" onPress={handleAddProduct} />
+      <Button title="Salvar" onPress={handleEditProduct} />
     </View>
   );
 }
