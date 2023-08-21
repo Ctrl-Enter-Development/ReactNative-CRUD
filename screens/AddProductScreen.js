@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useProductContext } from './ProductContext';
+import { useProductContext } from './ProductContext'; // Certifique-se de que o caminho para o arquivo está correto
 
 export default function AddProductScreen({ navigation }) {
   const { addProductToList } = useProductContext();

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useProductContext } from './ProductContext';
 
 export default function EditProductScreen({ route, navigation }) {
   const { product } = route.params;
-  const { updateProduct } = useProductContext();
+  const { updateProduct } = useProductContext(); // Certifique-se de usar o hook de contexto corretamente
   const [productName, setProductName] = useState(product.name);
   const [productDescription, setProductDescription] = useState(product.description);
   const [productValue, setProductValue] = useState(product.value ? product.value.toString() : '');
@@ -21,7 +21,7 @@ export default function EditProductScreen({ route, navigation }) {
       value: parseFloat(productValue),
     };
 
-    updateProduct(editedProduct);
+    updateProduct(editedProduct); // Use a função updateProduct do hook de contexto
     navigation.navigate('Detalhes do Produto', { product: editedProduct });
   };
 

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { useProductContext } from './ProductContext';
+import { ProductContext } from './ProductContext';
 
 export default function ProductListScreen({ navigation }) {
-  const { productList } = useProductContext();
+  const { productList } = useContext(ProductContext);
 
   return (
     <View style={styles.container}>
@@ -16,7 +16,7 @@ export default function ProductListScreen({ navigation }) {
             onPress={() => navigation.navigate('Detalhes do Produto', { product: item })}
             style={styles.productItem}
           >
-            <Text style={styles.productName}>{item.name}</Text>
+            <Text>{item.name}</Text>
           </TouchableOpacity>
         )}
       />

@@ -9,7 +9,8 @@ import UserDetailScreen from './screens/UserDetailScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import AddProductScreen from './screens/AddProductScreen';
 import EditProductScreen from './screens/EditProductScreen'; // Certifique-se de ter o arquivo EditProductScreen.js
-import ProductDetailScreen from './screens/ProductDetailScreen'; // Certifique-se de ter o arquivo EditProductScreen.js
+import ProductDetailScreen from './screens/ProductDetailScreen'; 
+// Certifique-se de ter o arquivo EditProductScreen.js
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
