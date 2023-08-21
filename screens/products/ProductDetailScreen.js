@@ -1,29 +1,47 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useProductContext } from './ProductContext';
 
 export default function ProductDetailScreen({ route, navigation }) {
   const { product } = route.params;
   const { removeProduct } = useProductContext();
 
+  const handleDeleteProduct = () => {
+    Alert.alert(
+      'Confirmar Exclusão',
+      'Tem certeza de que deseja excluir este produto?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: () => {
+            removeProduct(product.id);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Detalhes do Produto</Text>
       <Text>Nome: {product.name}</Text>
       <Text>Descrição: {product.description}</Text>
-      <Text>Valor Unitário: {product.value}</Text>
+      <Text>Valor Unitário: R${product.value.toFixed(2)}</Text>
       <TouchableOpacity
         style={styles.editButton}
-        onPress={() => navigation.navigate('Editar Produto', { product })}
+        onPress={() => navigation.navigate('EditProduct', { product })}
       >
         <Text style={styles.editButtonText}>Editar</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.deleteButton}
-        onPress={() => {
-          removeProduct(product.id);
-          navigation.goBack();
-        }}
+        onPress={handleDeleteProduct}
       >
         <Text style={styles.deleteButtonText}>Excluir</Text>
       </TouchableOpacity>

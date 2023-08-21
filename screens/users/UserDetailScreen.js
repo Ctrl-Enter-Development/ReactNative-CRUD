@@ -27,11 +27,11 @@ export default function UserDetailScreen({ route, navigation }) {
       <View style={styles.buttonContainer}>
         <Button
           title="Editar Usuário"
-          onPress={() => navigation.navigate('Editar Usuário', { userId: userId })}
+          onPress={() => navigation.navigate('EditUser', { userId: userId })}
         />
         <Button
           title="Excluir Usuário"
-          onPress={() => navigation.navigate('Excluir Usuário', { userId: userId })}
+          onPress={() => navigation.navigate('DeleteUser', { userId: userId })}
         />
       </View>
     </View>

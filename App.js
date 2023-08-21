@@ -13,42 +13,61 @@ import EditProductScreen from './screens/products/EditProductScreen';
 import ProductDetailScreen from './screens/products/ProductDetailScreen';
 import EditUserScreen from './screens/users/EditUserScreen';
 import DeleteUserScreen from './screens/users/DeleteUserScreen';
+import HomeScreen from './screens/HomeScreen'; 
+import { Ionicons } from '@expo/vector-icons';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function UserStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Lista de Usuários" component={UserListScreen} />
-      <Stack.Screen name="Adicionar Usuário" component={AddUserScreen} />
-      <Stack.Screen name="Detalhes do Usuário" component={UserDetailScreen} />
-      <Stack.Screen name="Editar Usuário" component={EditUserScreen} />
-      <Stack.Screen name="Excluir Usuário" component={DeleteUserScreen} />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="UserList" component={UserListScreen} />
+      <Stack.Screen name="AddUser" component={AddUserScreen} />
+      <Stack.Screen name="UserDetail" component={UserDetailScreen} />
+      <Stack.Screen name="EditUser" component={EditUserScreen} />
+      <Stack.Screen name="DeleteUser" component={DeleteUserScreen} />
     </Stack.Navigator>
   );
 }
 
 function ProductStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Lista de Produtos" component={ProductListScreen} />
-      <Stack.Screen name="Adicionar Produto" component={AddProductScreen} />
-      <Stack.Screen name="Editar Produto" component={EditProductScreen} />
-      <Stack.Screen name="Detalhes do Produto" component={ProductDetailScreen} />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="ProductList" component={ProductListScreen} />
+      <Stack.Screen name="AddProduct" component={AddProductScreen} />
+      <Stack.Screen name="EditProduct" component={EditProductScreen} />
+      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
     </Stack.Navigator>
   );
 }
+
+
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Usuários" component={UserStack} />
+      <Drawer.Screen name="Produtos" component={ProductStack} />
+    </Drawer.Navigator>
+  );
+}
+
 
 export default function App() {
   return (
     <NavigationContainer>
       <UserProvider>
         <ProductProvider>
-          <Drawer.Navigator initialRouteName="UserStack">
-            <Drawer.Screen name="Usuários" component={UserStack} />
-            <Drawer.Screen name="Produtos" component={ProductStack} />
-          </Drawer.Navigator>
+          <DrawerNavigator />
         </ProductProvider>
       </UserProvider>
     </NavigationContainer>

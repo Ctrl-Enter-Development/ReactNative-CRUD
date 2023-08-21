@@ -13,16 +13,19 @@ export default function ProductListScreen({ navigation }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('Detalhes do Produto', { product: item })}
+            onPress={() => navigation.navigate('ProductDetail', { product: item })}
             style={styles.productItem}
           >
-            <Text>{item.name}</Text>
+            <Text style={styles.productName}>{item.name}</Text>
+            {item.price !== undefined && (
+              <Text style={styles.productPrice}>Preço: R$ {item.price.toFixed(2)}</Text>
+            )}
           </TouchableOpacity>
         )}
       />
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('Adicionar Produto')}
+        onPress={() => navigation.navigate('AddProduct')}
       >
         <Text style={styles.addButtonText}>Adicionar Produto</Text>
       </TouchableOpacity>
@@ -47,6 +50,11 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 10,
     borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   productName: {
     fontSize: 18,
@@ -62,6 +70,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     alignSelf: 'center',
+    marginTop: 20,
   },
   addButtonText: {
     color: '#fff',

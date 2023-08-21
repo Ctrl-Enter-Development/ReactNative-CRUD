@@ -4,7 +4,7 @@ import { useProductContext } from './ProductContext';
 
 export default function EditProductScreen({ route, navigation }) {
   const { product } = route.params;
-  const { updateProduct } = useProductContext(); // Certifique-se de usar o hook de contexto corretamente
+  const { updateProduct } = useProductContext();
   const [productName, setProductName] = useState(product.name);
   const [productDescription, setProductDescription] = useState(product.description);
   const [productValue, setProductValue] = useState(product.value ? product.value.toString() : '');
@@ -21,8 +21,8 @@ export default function EditProductScreen({ route, navigation }) {
       value: parseFloat(productValue),
     };
 
-    updateProduct(editedProduct); // Use a função updateProduct do hook de contexto
-    navigation.navigate('Detalhes do Produto', { product: editedProduct });
+    updateProduct(editedProduct);
+    navigation.navigate('ProductDetail', { product: editedProduct });
   };
 
   return (
@@ -47,7 +47,7 @@ export default function EditProductScreen({ route, navigation }) {
         value={productValue}
         onChangeText={setProductValue}
       />
-      <Button title="Salvar" onPress={handleEditProduct} />
+      <Button title="Salvar Alterações" onPress={handleEditProduct} />
     </View>
   );
 }
@@ -56,17 +56,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0',
   },
   heading: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: '100%',
-    padding: 10,
+    padding: 12,
     borderColor: '#ccc',
     borderWidth: 1,
+    borderRadius: 8,
     marginBottom: 10,
   },
 });

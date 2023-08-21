@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useProductContext } from './ProductContext'; // Certifique-se de que o caminho para o arquivo está correto
+import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { useProductContext } from './ProductContext';
 
 export default function AddProductScreen({ navigation }) {
   const { addProductToList } = useProductContext();
@@ -25,7 +25,7 @@ export default function AddProductScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={styles.heading}>Adicionar Produto</Text>
       <TextInput
         style={styles.input}
@@ -38,6 +38,7 @@ export default function AddProductScreen({ navigation }) {
         placeholder="Descrição"
         value={productDescription}
         onChangeText={setProductDescription}
+        multiline
       />
       <TextInput
         style={styles.input}
@@ -46,26 +47,30 @@ export default function AddProductScreen({ navigation }) {
         value={productValue}
         onChangeText={setProductValue}
       />
-      <Button title="Adicionar" onPress={handleAddProduct} />
-    </View>
+      <Button title="Adicionar Produto" onPress={handleAddProduct} />
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0',
   },
   heading: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
-    width: '100%',
-    padding: 10,
+    height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 10,
+    borderRadius: 5,
+    marginBottom: 15,
+    paddingHorizontal: 10,
   },
 });

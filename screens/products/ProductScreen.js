@@ -30,14 +30,14 @@ export default function ProductListScreen({ navigation }) {
             <Text style={styles.productName}>{item.name}</Text>
             <Button
               title="Detalhes"
-              onPress={() => navigation.navigate('Detalhes do Produto', { productId: item.id })}
+              onPress={() => navigation.navigate('ProductDetail', { productId: item.id })}
             />
           </View>
         )}
       />
       <Button
         title="Adicionar Produto"
-        onPress={() => navigation.navigate('Adicionar Produto')}
+        onPress={() => navigation.navigate('AddProduct')}
       />
     </View>
   );

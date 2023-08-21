@@ -37,7 +37,7 @@ export default function DeleteUserScreen({ route, navigation }) {
           text: 'Excluir',
           onPress: () => {
             removeUser(userId);
-            navigation.navigate('Lista de Usuários');
+            navigation.navigate('UserList');
           },
         },
       ]
