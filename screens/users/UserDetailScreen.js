@@ -1,53 +1,32 @@
-// Código do UserDetailScreen.js
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { useUserContext } from './UserContext';
 
-export default function UserDetailScreen({ route, navigation }) {
+export default function UserDetailScreen({ route, navigation }) { // Certifique-se de receber navigation como prop
   const { userId } = route.params;
-  const [userProducts, setUserProducts] = useState([]);
+  const { users } = useUserContext();
+  const user = users.find((user) => user.id === userId);
 
-  useEffect(() => {
-    async function fetchUserProducts() {
-      try {
-        const existingProducts = await AsyncStorage.getItem('produtos');
-        const productsData = existingProducts ? JSON.parse(existingProducts) : [];
-        const userProductsData = productsData.filter(product => product.userId === userId);
-        setUserProducts(userProductsData);
-      } catch (error) {
-        console.error('Error fetching user products:', error);
-      }
-    }
-
-    fetchUserProducts();
-  }, []);
-
-  const handleRemoveProduct = async (productId) => {
-    try {
-      const updatedProducts = userProducts.filter(product => product.id !== productId);
-      await AsyncStorage.setItem('produtos', JSON.stringify(updatedProducts));
-      setUserProducts(updatedProducts);
-    } catch (error) {
-      console.error('Error removing product:', error);
-    }
-  };
+  if (!user) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.heading}>Usuário não encontrado</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Produtos do Usuário</Text>
-      <FlatList
-        data={userProducts}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.productItem}>
-            <Text style={styles.productName}>{item.name}</Text>
-            <Button title="Remover" onPress={() => handleRemoveProduct(item.id)} />
-          </View>
-        )}
+      <Text style={styles.heading}>Detalhes do Usuário</Text>
+      <Text style={styles.userInfo}>Nome: {user.name}</Text>
+      {/* Adicione mais informações do usuário aqui, se necessário */}
+      <Button
+        title="Editar Usuário"
+        onPress={() => navigation.navigate('Editar Usuário', { userId: userId })}
       />
       <Button
-        title="Adicionar Produto"
-        onPress={() => navigation.navigate('Adicionar Produto')}
+        title="Excluir Usuário"
+        onPress={() => navigation.navigate('Excluir Usuário', { userId: userId })}
       />
     </View>
   );
@@ -63,16 +42,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
   },
-  productItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-  },
-  productName: {
+  userInfo: {
     fontSize: 16,
+    marginBottom: 5,
   },
 });

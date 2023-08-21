@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useUserContext } from './UserContext'; // Certifique-se de importar corretamente
+import { useUserContext } from './UserContext';
 
 export default function AddUserScreen({ navigation }) {
-  const { addUser } = useUserContext(); // Use o contexto para adicionar um usuário
+  const { addUser } = useUserContext();
   const [name, setName] = useState('');
 
   const handleAddUser = () => {
@@ -17,7 +17,7 @@ export default function AddUserScreen({ navigation }) {
       name: name,
     };
 
-    addUser(newUser); // Use a função addUser do contexto de usuários
+    addUser(newUser);
     Alert.alert('Sucesso', 'Usuário cadastrado com sucesso.');
     setName('');
     navigation.goBack();

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import { useUserContext } from './UserContext'; // Certifique-se de importar corretamente
+import { useUserContext } from './UserContext';
 
 export default function UserListScreen({ navigation }) {
-  const { users } = useUserContext(); // Use o contexto para obter a lista de usuários
+  const { users } = useUserContext();
+
+
 
   return (
     <View style={styles.container}>
@@ -15,7 +17,7 @@ export default function UserListScreen({ navigation }) {
           <View style={styles.userItem}>
             <Text style={styles.userName}>{item.name}</Text>
             <Button
-              title="Ver Produtos"
+              title="Ver Detalhes"
               onPress={() => navigation.navigate('Detalhes do Usuário', { userId: item.id })}
             />
           </View>

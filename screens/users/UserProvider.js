@@ -1,27 +1,30 @@
-// UserContext.js
+// UserProvider.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export function useUserContext() {
   return useContext(UserContext);
 }
 
-export function UserProvider({ children }) {
+export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
-  
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function loadUsersFromStorage() {
       try {
         const existingUsers = await AsyncStorage.getItem('usuarios');
         const usersData = existingUsers ? JSON.parse(existingUsers) : [];
         setUsers(usersData);
+        setLoading(false);
       } catch (error) {
         console.error('Error loading users:', error);
+        setLoading(false);
       }
     }
-  
+
     loadUsersFromStorage();
   }, []);
 
@@ -47,17 +50,15 @@ export function UserProvider({ children }) {
     saveUsersToStorage(updatedUsers);
   };
 
-  const removeUser = async (userId) => {
+  const removeUser = (userId) => {
     const updatedUsers = users.filter((user) => user.id !== userId);
     setUsers(updatedUsers);
     saveUsersToStorage(updatedUsers);
   };
 
   return (
-    <UserContext.Provider value={{ users, addUser, updateUser, removeUser }}>
+    <UserContext.Provider value={{ users, loading, addUser, updateUser, removeUser }}>
       {children}
     </UserContext.Provider>
   );
-}
-
-export default UserContext;
+};
