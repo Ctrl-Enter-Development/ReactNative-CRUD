@@ -34,25 +34,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0',
   },
   heading: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   productItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    padding: 16,
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  productName: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  productPrice: {
+    fontSize: 16,
+    color: '#888',
   },
   addButton: {
     backgroundColor: '#007bff',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
+    padding: 12,
+    borderRadius: 8,
     alignItems: 'center',
+    alignSelf: 'center',
   },
   addButtonText: {
     color: '#fff',
+    fontSize: 18,
   },
 });

@@ -1,3 +1,4 @@
+// UserListScreen.js
 import React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import { useUserContext } from './UserContext';
@@ -5,7 +6,15 @@ import { useUserContext } from './UserContext';
 export default function UserListScreen({ navigation }) {
   const { users } = useUserContext();
 
-
+  const renderUserItem = ({ item }) => (
+    <View style={styles.userItem}>
+      <Text style={styles.userName}>{item.name}</Text>
+      <Button
+        title="Ver Detalhes"
+        onPress={() => navigation.navigate('Detalhes do Usuário', { userId: item.id })}
+      />
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -13,15 +22,7 @@ export default function UserListScreen({ navigation }) {
       <FlatList
         data={users}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.userItem}>
-            <Text style={styles.userName}>{item.name}</Text>
-            <Button
-              title="Ver Detalhes"
-              onPress={() => navigation.navigate('Detalhes do Usuário', { userId: item.id })}
-            />
-          </View>
-        )}
+        renderItem={renderUserItem}
       />
       <Button
         title="Cadastrar Usuário"
@@ -35,22 +36,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0',
   },
   heading: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   userItem: {
-    backgroundColor: '#f0f0f0',
-    padding: 10,
+    backgroundColor: '#fff',
+    padding: 16,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   userName: {
-    fontSize: 16,
+    fontSize: 18,
   },
 });
