@@ -1,35 +1,26 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserContext } from './UserContext'; // Certifique-se de importar corretamente
 
 export default function AddUserScreen({ navigation }) {
+  const { addUser } = useUserContext(); // Use o contexto para adicionar um usuário
   const [name, setName] = useState('');
 
-  const handleAddUser = async () => {
+  const handleAddUser = () => {
     if (name.trim() === '') {
       Alert.alert('Erro', 'Por favor, insira o nome do usuário.');
       return;
     }
 
-    try {
-      const newUser = {
-        id: Date.now().toString(),
-        name: name,
-      };
+    const newUser = {
+      id: Date.now().toString(),
+      name: name,
+    };
 
-      const existingUsers = await AsyncStorage.getItem('usuarios');
-      const users = existingUsers ? JSON.parse(existingUsers) : [];
-      users.push(newUser);
-
-      await AsyncStorage.setItem('usuarios', JSON.stringify(users));
-
-      Alert.alert('Sucesso', 'Usuário cadastrado com sucesso.');
-      setName('');
-      navigation.goBack();
-    } catch (error) {
-      console.error('Error adding user:', error);
-      Alert.alert('Erro', 'Ocorreu um erro ao cadastrar o usuário.');
-    }
+    addUser(newUser); // Use a função addUser do contexto de usuários
+    Alert.alert('Sucesso', 'Usuário cadastrado com sucesso.');
+    setName('');
+    navigation.goBack();
   };
 
   return (

@@ -1,23 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserContext } from './UserContext'; // Certifique-se de importar corretamente
 
 export default function UserListScreen({ navigation }) {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const existingUsers = await AsyncStorage.getItem('usuarios');
-        const usersData = existingUsers ? JSON.parse(existingUsers) : [];
-        setUsers(usersData);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    }
-
-    fetchUsers();
-  }, []);
+  const { users } = useUserContext(); // Use o contexto para obter a lista de usuários
 
   return (
     <View style={styles.container}>

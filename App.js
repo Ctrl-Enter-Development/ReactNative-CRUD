@@ -2,15 +2,15 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ProductProvider } from './screens/ProductContext';
-import UserListScreen from './screens/UserListScreen';
-import AddUserScreen from './screens/AddUserScreen';
-import UserDetailScreen from './screens/UserDetailScreen';
-import ProductListScreen from './screens/ProductListScreen';
-import AddProductScreen from './screens/AddProductScreen';
-import EditProductScreen from './screens/EditProductScreen'; // Certifique-se de ter o arquivo EditProductScreen.js
-import ProductDetailScreen from './screens/ProductDetailScreen'; 
-// Certifique-se de ter o arquivo EditProductScreen.js
+import { ProductProvider } from './screens/products/ProductContext';
+import { UserProvider } from './screens/users/UserContext'; // Importar o UserProvider
+import UserListScreen from './screens/users/UserListScreen';
+import AddUserScreen from './screens/users/AddUserScreen';
+import UserDetailScreen from './screens/users/UserDetailScreen';
+import ProductListScreen from './screens/products/ProductListScreen';
+import AddProductScreen from './screens/products/AddProductScreen';
+import EditProductScreen from './screens/products/EditProductScreen';
+import ProductDetailScreen from './screens/products/ProductDetailScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -39,12 +39,14 @@ function ProductStack() {
 export default function App() {
   return (
     <NavigationContainer>
-      <ProductProvider>
-        <Drawer.Navigator initialRouteName="Usuários">
-          <Drawer.Screen name="Usuários" component={UserStack} />
-          <Drawer.Screen name="Produtos" component={ProductStack} />
-        </Drawer.Navigator>
-      </ProductProvider>
+      <UserProvider>
+        <ProductProvider>
+          <Drawer.Navigator initialRouteName="Usuários">
+            <Drawer.Screen name="Usuários" component={UserStack} />
+            <Drawer.Screen name="Produtos" component={ProductStack} />
+          </Drawer.Navigator>
+        </ProductProvider>
+      </UserProvider>
     </NavigationContainer>
   );
 }
