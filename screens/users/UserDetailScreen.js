@@ -1,5 +1,3 @@
-// UserDetailScreen.js
-import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useUserContext } from './UserContext';
 import { useProductContext } from '../products/ProductContext';
@@ -23,6 +21,9 @@ export default function UserDetailScreen({ route, navigation }) {
     ? productList.filter((product) => user.produtos.includes(product.id))
     : [];
 
+  // Calcule a soma dos valores dos produtos atribuídos ao usuário
+  const totalValue = userProducts.reduce((total, product) => total + product.value, 0);
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Detalhes do Usuário</Text>
@@ -41,6 +42,14 @@ export default function UserDetailScreen({ route, navigation }) {
         ) : (
           <Text style={styles.userInfo}>Nenhum produto associado</Text>
         )}
+
+        {/* Exiba a soma dos valores dos produtos */}
+        {userProducts.length > 0 && (
+          <Text style={styles.userInfoLabel}>Valor Total dos Produtos:</Text>
+        )}
+        {userProducts.length > 0 ? (
+          <Text style={styles.userInfo}>R$ {totalValue.toFixed(2)}</Text>
+        ) : null}
       </View>
       <View style={styles.buttonContainer}>
         <Button
