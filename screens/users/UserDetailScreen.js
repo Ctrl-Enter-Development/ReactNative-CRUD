@@ -2,10 +2,12 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useUserContext } from './UserContext';
+import { useProductContext } from '../products/ProductContext';
 
 export default function UserDetailScreen({ route, navigation }) {
   const { userId } = route.params;
   const { users } = useUserContext();
+  const { productList } = useProductContext();
   const user = users.find((user) => user.id === userId);
 
   if (!user) {
@@ -16,13 +18,29 @@ export default function UserDetailScreen({ route, navigation }) {
     );
   }
 
+  // Verifique se o array de produtos está definido no usuário
+  const userProducts = user.produtos
+    ? productList.filter((product) => user.produtos.includes(product.id))
+    : [];
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Detalhes do Usuário</Text>
       <View style={styles.userInfoContainer}>
         <Text style={styles.userInfoLabel}>Nome:</Text>
         <Text style={styles.userInfo}>{user.name}</Text>
-        {/* Adicione mais informações do usuário aqui, se necessário */}
+
+        {/* Exiba a lista de produtos associados ao usuário */}
+        <Text style={styles.userInfoLabel}>Produtos Adicionados:</Text>
+        {userProducts.length > 0 ? (
+          userProducts.map((product) => (
+            <Text key={product.id} style={styles.userInfo}>
+              - {product.name}
+            </Text>
+          ))
+        ) : (
+          <Text style={styles.userInfo}>Nenhum produto associado</Text>
+        )}
       </View>
       <View style={styles.buttonContainer}>
         <Button

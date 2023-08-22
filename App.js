@@ -13,6 +13,7 @@ import EditProductScreen from './screens/products/EditProductScreen';
 import ProductDetailScreen from './screens/products/ProductDetailScreen';
 import EditUserScreen from './screens/users/EditUserScreen';
 import DeleteUserScreen from './screens/users/DeleteUserScreen';
+import AddSaleScreen from './screens/sales/AddSaleScreen'; // Importe a nova tela
 import HomeScreen from './screens/HomeScreen'; 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -57,19 +58,19 @@ function DrawerNavigator() {
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Usuários" component={UserStack} />
       <Drawer.Screen name="Produtos" component={ProductStack} />
+      <Drawer.Screen name="Adicionar Venda" component={AddSaleScreen} />
     </Drawer.Navigator>
   );
 }
 
-
 export default function App() {
   return (
-    <NavigationContainer>
-      <UserProvider>
-        <ProductProvider>
+    <UserProvider>
+      <ProductProvider>
+        <NavigationContainer>
           <DrawerNavigator />
-        </ProductProvider>
-      </UserProvider>
-    </NavigationContainer>
+        </NavigationContainer>
+      </ProductProvider>
+    </UserProvider>
   );
 }

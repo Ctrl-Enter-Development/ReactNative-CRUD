@@ -20,6 +20,13 @@ export default function HomeScreen({ navigation }) {
         <MaterialIcons name="shopping-cart" size={30} color="#007bff" />
         <Text style={styles.buttonText}>Lista de Produtos</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Adicionar Venda')}
+      >
+        <MaterialIcons name="add-shopping-cart" size={30} color="#007bff" />
+        <Text style={styles.buttonText}>Adicionar Venda</Text>
+      </TouchableOpacity>
     </View>
   );
 }

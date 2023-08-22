@@ -10,6 +10,14 @@ export function useUserContext() {
 
 export function UserProvider({ children }) {
   const [users, setUsers] = useState([]);
+
+  const addUserProduct = async (userId, productId) => {
+    const updatedUsers = users.map((user) =>
+      user.id === userId ? { ...user, produtos: [...user.produtos, productId] } : user
+    );
+    setUsers(updatedUsers);
+    saveUsersToStorage(updatedUsers);
+  };
   
   useEffect(() => {
     async function loadUsersFromStorage() {
@@ -54,7 +62,7 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ users, addUser, updateUser, removeUser }}>
+    <UserContext.Provider value={{ users, addUser, updateUser, removeUser, addUserProduct }}>
       {children}
     </UserContext.Provider>
   );
