@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import { HeaderBackButton } from '@react-navigation/elements';
 import { ProductProvider } from './screens/products/ProductContext';
 import { UserProvider } from './screens/users/UserContext';
 import UserListScreen from './screens/users/UserListScreen';
@@ -14,32 +13,60 @@ import EditProductScreen from './screens/products/EditProductScreen';
 import ProductDetailScreen from './screens/products/ProductDetailScreen';
 import EditUserScreen from './screens/users/EditUserScreen';
 import DeleteUserScreen from './screens/users/DeleteUserScreen';
-import AddSaleScreen from './screens/sales/AddSaleScreen'; // Importe a nova tela
-import HomeScreen from './screens/HomeScreen'; 
+import HomeScreen from './screens/HomeScreen';
+import { TouchableOpacity, Text, View } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import AddSaleScreen from './screens/sales/AddSaleScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { HeaderRightButton } from '@react-navigation/stack';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+const BackButton = ({ navigation }) => (
+  <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+    <Text style={{ fontSize: 16 }}>Voltar</Text>
+  </TouchableOpacity>
+);
+
+function AppStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#f0f0f0',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'black',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              style={{ marginLeft: 10 }}
+            >
+              <Feather name="menu" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function UserStack({ navigation }) {
   return (
     <Stack.Navigator
-      screenOptions={({ navigation }) => ({
-        headerShown: true,
-        headerLeft: (props) => (
-          <HeaderBackButton {...props} onPress={() => navigation.goBack()} />
-        ),
-        headerRight: () => (
-          <Ionicons
-            name="menu"
-            size={30}
-            color="black"
-            style={{ marginRight: 15 }}
-            onPress={() => navigation.toggleDrawer()}
-          />
-        ),
-      })}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Stack.Screen name="UserList" component={UserListScreen} />
       <Stack.Screen name="AddUser" component={AddUserScreen} />
@@ -53,21 +80,9 @@ function UserStack({ navigation }) {
 function ProductStack({ navigation }) {
   return (
     <Stack.Navigator
-      screenOptions={({ navigation }) => ({
-        headerShown: true,
-        headerLeft: (props) => (
-          <HeaderBackButton {...props} onPress={() => navigation.goBack()} />
-        ),
-        headerRight: () => (
-          <Ionicons
-            name="menu"
-            size={30}
-            color="black"
-            style={{ marginRight: 15 }}
-            onPress={() => navigation.toggleDrawer()}
-          />
-        ),
-      })}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Stack.Screen name="ProductList" component={ProductListScreen} />
       <Stack.Screen name="AddProduct" component={AddProductScreen} />
@@ -79,7 +94,13 @@ function ProductStack({ navigation }) {
 
 function DrawerNavigator() {
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerPosition="right"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Usuários" component={UserStack} />
       <Drawer.Screen name="Produtos" component={ProductStack} />
@@ -90,17 +111,12 @@ function DrawerNavigator() {
 
 export default function App() {
   return (
-    <UserProvider>
-      <ProductProvider>
-        <NavigationContainer>
-          <Drawer.Navigator initialRouteName="Home">
-            <Drawer.Screen name="Home" component={HomeScreen} />
-            <Drawer.Screen name="Usuários" component={UserStack} />
-            <Drawer.Screen name="Produtos" component={ProductStack} />
-            <Drawer.Screen name="Adicionar Venda" component={AddSaleScreen} />
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </ProductProvider>
-    </UserProvider>
+    <NavigationContainer>
+      <UserProvider>
+        <ProductProvider>
+          <DrawerNavigator />
+        </ProductProvider>
+      </UserProvider>
+    </NavigationContainer>
   );
 }
