@@ -1,6 +1,7 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useUserContext } from './UserContext';
-import { useProductContext } from '../products/ProductContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { useProductContext } from '../../contexts/ProductContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function UserDetailScreen({ route, navigation }) {
   const { userId } = route.params;
@@ -26,7 +27,7 @@ export default function UserDetailScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Detalhes do Usuário</Text>
+    <CustomHeader title="Detalhes do Usuário" showBackButton={true} showMenuButton={true} />
       <View style={styles.userInfoContainer}>
         <Text style={styles.userInfoLabel}>Nome:</Text>
         <Text style={styles.userInfo}>{user.name}</Text>

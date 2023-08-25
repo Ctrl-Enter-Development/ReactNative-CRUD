@@ -1,6 +1,7 @@
 // UserProvider.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export const UserContext = createContext();
 

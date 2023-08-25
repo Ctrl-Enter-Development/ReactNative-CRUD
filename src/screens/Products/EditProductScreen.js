@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useProductContext } from './ProductContext';
+import { useProductContext } from '../../contexts/ProductContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function EditProductScreen({ route, navigation }) {
   const { product } = route.params;
@@ -27,7 +28,7 @@ export default function EditProductScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Editar Produto</Text>
+    <CustomHeader title="Editar Produto" showBackButton={true} showMenuButton={true} />
       <TextInput
         style={styles.input}
         placeholder="Nome do Produto"

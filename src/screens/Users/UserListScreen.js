@@ -1,11 +1,12 @@
 // UserListScreen.js
 import React from 'react';
 import { View, Text, FlatList, Button,TouchableOpacity, StyleSheet } from 'react-native';
-import { useUserContext } from './UserContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function UserListScreen({ navigation }) {
   const { users } = useUserContext();
-
+  
   const renderUserItem = ({ item }) => (
     <View style={styles.userItem}>
       <Text style={styles.userName}>{item.name}</Text>
@@ -17,8 +18,9 @@ export default function UserListScreen({ navigation }) {
   );
 
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.heading}>Lista de Usuários Cadastrados</Text>
+      <CustomHeader title="Lista de Usuários Cadastrados" showBackButton={true} showMenuButton={true} />
       <FlatList
         data={users}
         keyExtractor={(item) => item.id.toString()}

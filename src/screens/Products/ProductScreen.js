@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useProductContext } from '../../contexts/ProductContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function ProductListScreen({ navigation }) {
   const [products, setProducts] = useState([]);
@@ -21,7 +23,8 @@ export default function ProductListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Lista de Produtos Cadastrados</Text>
+    <CustomHeader title="Lista de Produtos Cadastrados" showBackButton={true} showMenuButton={true} />
+
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}

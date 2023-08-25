@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useProductContext } from './ProductContext';
+import { useProductContext } from '../../contexts/ProductContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function ProductDetailScreen({ route, navigation }) {
   const { product } = route.params;
@@ -29,7 +30,7 @@ export default function ProductDetailScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Detalhes do Produto</Text>
+    <CustomHeader title="Detalhes do Produto" showBackButton={true} showMenuButton={true} />
       <Text>Nome: {product.name}</Text>
       <Text>Descrição: {product.description}</Text>
       <Text>Valor Unitário: R${product.value.toFixed(2)}</Text>

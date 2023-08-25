@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { useProductContext } from './ProductContext';
+import { useProductContext } from '../../contexts/ProductContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function AddProductScreen({ navigation }) {
+  
   const { addProductToList } = useProductContext();
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
@@ -25,8 +27,9 @@ export default function AddProductScreen({ navigation }) {
   };
 
   return (
+    <View style={styles.container}>  
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={styles.heading}>Adicionar Produto</Text>
+     <CustomHeader title="Adicionar Produto" showBackButton={true} showMenuButton={true}></CustomHeader>
       <TextInput
         style={styles.input}
         placeholder="Nome do Produto"
@@ -49,14 +52,15 @@ export default function AddProductScreen({ navigation }) {
       />
       <Button title="Adicionar Produto" onPress={handleAddProduct} />
     </KeyboardAvoidingView>
+       </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 20,
+    padding: 10,
+    margin:0,
     backgroundColor: '#f0f0f0',
   },
   heading: {
@@ -66,6 +70,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
+    margin:10,
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,

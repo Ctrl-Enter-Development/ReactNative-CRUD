@@ -1,9 +1,10 @@
 // AddSaleScreen.js
 import React, { useContext, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { useUserContext } from '../users/UserContext';
-import { useProductContext } from '../products/ProductContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { useProductContext } from '../../contexts/ProductContext';
 import { Alert } from 'react-native';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 
 export default function AddSaleScreen({ navigation }) {
@@ -40,7 +41,8 @@ export default function AddSaleScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Adicionar Venda</Text>
+    <CustomHeader title="Adicionar Venda" showBackButton={true} showMenuButton={true} />
+
       <Text style={styles.userListHeading}>Lista de Usuários</Text>
       <FlatList
         data={users}

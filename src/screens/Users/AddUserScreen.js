@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useUserContext } from './UserContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function AddUserScreen({ navigation }) {
   const { addUser } = useUserContext();
@@ -25,7 +26,7 @@ export default function AddUserScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Cadastrar Usuário</Text>
+      <CustomHeader title="Cadastrar Usuário" showBackButton={true} showMenuButton={true} />
       <TextInput
         style={styles.input}
         placeholder="Nome"

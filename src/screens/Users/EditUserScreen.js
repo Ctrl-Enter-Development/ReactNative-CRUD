@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { useUserContext } from './UserContext';
-import { useProductContext } from '../products/ProductContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { useProductContext } from '../../contexts/ProductContext';
 import { useNavigation } from '@react-navigation/native';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function EditUserScreen({ route }) {
   const { userId } = route.params;
@@ -42,7 +43,7 @@ export default function EditUserScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Editar Usuário</Text>
+    <CustomHeader title="Editar Usuário" showBackButton={true} showMenuButton={true} />
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}

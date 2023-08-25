@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
-import { useUserContext } from './UserContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
+
 
 export default function DeleteUserScreen({ route, navigation }) {
   const { userId } = route.params;
@@ -46,7 +48,7 @@ export default function DeleteUserScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Excluir Usuário</Text>
+      <CustomHeader title="Excluir Usuário" showBackButton={true} showMenuButton={false} />
       <Text style={styles.confirmText}>
         Tem certeza de que deseja excluir este usuário?
       </Text>

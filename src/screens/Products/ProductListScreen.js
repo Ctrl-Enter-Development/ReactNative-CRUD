@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { ProductContext } from './ProductContext';
+import { ProductContext  } from '../../contexts/ProductContext';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function ProductListScreen({ navigation }) {
   const { productList } = useContext(ProductContext);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Lista de Produtos</Text>
+    <CustomHeader title="Lista de Produtos" showBackButton={true} showMenuButton={true} />
+
       <FlatList
         data={productList}
         keyExtractor={(item) => item.id}

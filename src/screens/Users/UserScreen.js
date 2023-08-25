@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CustomHeader } from '../../components/CustomHeader'; 
 
 export function UserScreen() {
   const [name, setName] = useState('');
@@ -38,7 +39,7 @@ export function UserScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Cadastrar Usuário</Text>
+    <CustomHeader title="Cadastrar Usuário" showBackButton={true} showMenuButton={true} />
       {successMessage ? <Text style={styles.successMessage}>{successMessage}</Text> : null}
       {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
       <TextInput
