@@ -37,6 +37,10 @@ const CustomSideMenu = ({ onClose }) => {
           <Feather name="dollar-sign" size={24} color="black" style={styles.menuIcon} />
           <Text style={styles.menuText}>Adicionar Venda</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('Configurações')}>
+        <Feather name="settings" size={24} color="black" style={styles.menuIcon} />
+        <Text style={styles.menuText}>Configurações</Text>
+      </TouchableOpacity>
       </View>
     </View>
   );

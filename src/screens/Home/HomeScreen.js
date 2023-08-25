@@ -31,6 +31,11 @@ export default function HomeScreen() {
         title="Adicionar Venda"
         iconName="add-shopping-cart" 
       />
+      <Button
+       onPress={() => navigation.navigate('Configurações')} // Use o nome correto da tela
+       title="Configurações"
+       iconName="settings" // Nome do ícone
+        />
       </View>
     </View>
   );
