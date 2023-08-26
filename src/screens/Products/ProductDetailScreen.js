@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useProductContext } from '../../contexts/ProductContext';
+import { useProductContext } from '../../contexts/ProductContext'; // Certifique-se de que o contexto de produtos seja importado corretamente
 import { CustomHeader } from '../../components/CustomHeader'; 
 
 export default function ProductDetailScreen({ route, navigation }) {
   const { product } = route.params;
-  const { removeProduct } = useProductContext();
+  const { removeProduct } = useProductContext(); // Certifique-se de que está usando o contexto de produtos
 
   const handleDeleteProduct = () => {
     Alert.alert(
@@ -30,10 +30,10 @@ export default function ProductDetailScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-    <CustomHeader title="Detalhes do Produto" showBackButton={true} showMenuButton={true} />
+      <CustomHeader title="Detalhes do Produto" showBackButton={true} showMenuButton={true} />
       <Text>Nome: {product.name}</Text>
       <Text>Descrição: {product.description}</Text>
-      <Text>Valor Unitário: R${product.value.toFixed(2)}</Text>
+      <Text>Valor Unitário: R$ {product.value.toFixed(2)}</Text>
       <TouchableOpacity
         style={styles.editButton}
         onPress={() => navigation.navigate('EditProduct', { product })}
@@ -55,10 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
-  },
-  heading: {
-    fontSize: 20,
-    marginBottom: 10,
   },
   editButton: {
     backgroundColor: '#007bff',

@@ -1,40 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { CustomHeader } from '../../components/CustomHeader';
-
+import { useUserContext } from '../../contexts/UserContext';
+import { useSaleContext } from '../../contexts/SaleContext';
+import { useProductContext } from '../../contexts/ProductContext';
 import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import * as DocumentPicker from 'expo-document-picker';
 
 export default function SettingsScreen() {
-  const [exportedJSON, setExportedJSON] = useState(null);
+  const { users, clearUsers, importUsers } = useUserContext();
+  const { productList, clearProductsData, importProducts } = useProductContext();
+  const { salesList, clearSalesData, importSales, removeSale } = useSaleContext();
+
+
+  const handleClearData = () => {
+    Alert.alert(
+      'Apagar Dados',
+      'Tem certeza de que deseja apagar todos os dados?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Apagar', onPress: () => clearData() },
+      ]
+    );
+  };
 
   const handleExportData = async () => {
-    const data = {
-      users: [{ name: 'Usuário 1' }, { name: 'Usuário 2' }],
-      products: [{ name: 'Produto 1' }, { name: 'Produto 2' }],
-      assignments: [{ user: 'Usuário 1', product: 'Produto 1' }],
-    };
-
     try {
-      const json = JSON.stringify(data);
-      setExportedJSON(json);
+      const dataToExport = JSON.stringify({ users, productList, salesList });
+      const fileUri = `${FileSystem.documentDirectory}exported_data.json`;
 
-      const fileUri = `${FileSystem.documentDirectory}database.json`; // Alterado para database.json
-      await FileSystem.writeAsStringAsync(fileUri, json, { encoding: FileSystem.EncodingType.UTF8 });
+      await FileSystem.writeAsStringAsync(fileUri, dataToExport);
 
-      Alert.alert('Sucesso', 'Dados exportados com sucesso! Você pode encontrar o arquivo em Downloads.');
+      const downloadUrl = await FileSystem.getContentUriAsync(fileUri);
+
+      Sharing.shareAsync(downloadUrl);
     } catch (error) {
-      console.error('Erro ao exportar dados:', error);
-      Alert.alert('Erro', 'Ocorreu um erro ao exportar os dados. Tente novamente.');
+      console.error('Erro ao fazer download do JSON:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao fazer o download do JSON. Tente novamente.');
     }
   };
 
   const handleViewJSON = () => {
-    if (exportedJSON) {
-      Alert.alert('JSON Exportado', exportedJSON);
-    } else {
-      Alert.alert('Aviso', 'Você precisa exportar os dados antes de visualizar o JSON.');
+    const jsonData = { users, productList, salesList };
+    const content = JSON.stringify(jsonData, null, 2); // The third argument is for formatting
+    Alert.alert('JSON Data', content);
+  };
+
+  const clearData = async () => {
+    try {
+      clearUsers();
+      clearProductsData();
+      clearSalesData(); // Chama a função para limpar vendas
+      Alert.alert('Sucesso', 'Dados apagados com sucesso!');
+    } catch (error) {
+      console.error('Erro ao apagar os dados:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao apagar os dados. Tente novamente.');
     }
+  };
+
+  const handleImportData = async () => {
+    try {
+      const document = await DocumentPicker.getDocumentAsync({ type: 'application/json' });
+  
+      if (document.type === 'success') {
+        const fileUri = document.uri;
+        const content = await FileSystem.readAsStringAsync(fileUri);
+        const importedData = JSON.parse(content);
+  
+        const {
+          users: importedUsers,
+          productList: importedProducts,
+          salesList: importedSales,
+        } = importedData;
+  
+        // Use the imported context functions to update the data
+        importUsers(importedUsers);
+        importProducts(importedProducts);
+        importSales(importedSales);
+  
+        Alert.alert('Sucesso', 'Dados importados com sucesso!');
+      }
+    } catch (error) {
+      console.error('Erro ao importar o JSON:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao importar o JSON. Tente novamente.');
+    }
+  };
+
+  const handleRemoveSale = (saleId) => {
+    Alert.alert(
+      'Remover Venda',
+      'Tem certeza de que deseja remover esta venda?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Remover', onPress: () => removeSale(saleId) },
+      ]
+    );
   };
 
   return (
@@ -49,6 +111,16 @@ export default function SettingsScreen() {
         <TouchableOpacity onPress={handleViewJSON} style={styles.viewButton}>
           <Feather name="eye" size={24} color="black" style={styles.viewIcon} />
           <Text style={styles.viewText}>Visualizar JSON</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleImportData} style={styles.viewButton}>
+          <Feather name="upload" size={24} color="black" style={styles.viewIcon} />
+          <Text style={styles.viewText}>Importar JSON</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleClearData} style={styles.viewButton}>
+          <Feather name="trash-2" size={24} color="black" style={styles.viewIcon} />
+          <Text style={styles.viewText}>Apagar Dados e Arquivo JSON</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -90,6 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#007bff',
+    marginBottom: 10,
   },
   viewIcon: {
     marginRight: 10,

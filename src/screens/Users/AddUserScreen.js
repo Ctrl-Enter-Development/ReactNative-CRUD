@@ -1,7 +1,8 @@
+// AddUserScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useUserContext } from '../../contexts/UserContext';
-import { CustomHeader } from '../../components/CustomHeader'; 
+import { CustomHeader } from '../../components/CustomHeader';
 
 export default function AddUserScreen({ navigation }) {
   const { addUser } = useUserContext();
@@ -45,10 +46,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#fff',
-  },
-  heading: {
-    fontSize: 20,
-    marginBottom: 10,
   },
   input: {
     width: '100%',

@@ -4,8 +4,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { SafeAreaView, StatusBar, Platform } from 'react-native';
 import { UserProvider } from './src/contexts/UserContext';
 import { ProductProvider } from './src/contexts/ProductContext';
+import { SaleProvider  } from './src/contexts/SaleContext';
 import DrawerNavigator from './src/navigation/DrawerNavigator'; 
-
 const Drawer = createDrawerNavigator();
 
 export default function App() {
@@ -15,7 +15,9 @@ export default function App() {
       <NavigationContainer>
         <UserProvider>
           <ProductProvider>
-            <DrawerNavigator />
+            <SaleProvider>
+             <DrawerNavigator />
+            </SaleProvider>
           </ProductProvider>
         </UserProvider>
       </NavigationContainer>

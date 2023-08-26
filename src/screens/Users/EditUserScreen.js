@@ -2,23 +2,27 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { useUserContext } from '../../contexts/UserContext';
 import { useProductContext } from '../../contexts/ProductContext';
+import { useSaleContext } from '../../contexts/SaleContext';
 import { useNavigation } from '@react-navigation/native';
-import { CustomHeader } from '../../components/CustomHeader'; 
+import { CustomHeader } from '../../components/CustomHeader';
+import { v4 as uuidv4 } from 'uuid';
+
 
 export default function EditUserScreen({ route }) {
   const { userId } = route.params;
   const navigation = useNavigation();
   const { users, updateUser } = useUserContext();
   const { productList } = useProductContext();
-  const user = users.find((user) => user.id === userId);
+  const { removeSale } = useSaleContext();
 
-  const [name, setName] = useState(user.name);
+  const user = users.find((user) => user.id === userId);
+  const [name, setName] = useState(user ? user.name : '');
   const [selectedProductToRemove, setSelectedProductToRemove] = useState(null);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
 
   const handleUpdateUser = () => {
     if (name.trim() === '') {
-      return; // Não atualizar se o nome estiver vazio
+      return;
     }
 
     const updatedUser = { ...user, name: name };
@@ -30,20 +34,19 @@ export default function EditUserScreen({ route }) {
     setSelectedProductToRemove(productId);
     setIsConfirmationModalVisible(true);
   };
-
+  
   const confirmRemoveProduct = () => {
     if (selectedProductToRemove) {
-      const updatedProducts = user.produtos.filter((item) => item !== selectedProductToRemove);
-      const updatedUser = { ...user, produtos: updatedProducts };
-      updateUser(updatedUser);
+      const updatedProdutos = user.produtos.filter((productId) => productId !== selectedProductToRemove);
+      updateUser({ ...user, produtos: updatedProdutos }); // Update user's produtos array
+      removeSale(user.id, selectedProductToRemove); // Remove sale from user's sales
       setIsConfirmationModalVisible(false);
       setSelectedProductToRemove(null);
     }
   };
-
   return (
     <View style={styles.container}>
-    <CustomHeader title="Editar Usuário" showBackButton={true} showMenuButton={true} />
+      <CustomHeader title="Editar Usuário" showBackButton={true} showMenuButton={true} />
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
@@ -54,7 +57,7 @@ export default function EditUserScreen({ route }) {
         <Text style={styles.subHeading}>Produtos Atribuídos:</Text>
         <FlatList
           data={user.produtos}
-          keyExtractor={(item) => item}
+          keyExtractor={() => uuidv4()}
           renderItem={({ item }) => (
             <View style={styles.productItem}>
               <Text>{productList.find((product) => product.id === item)?.name}</Text>
@@ -86,7 +89,6 @@ export default function EditUserScreen({ route }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -133,7 +135,8 @@ const styles = StyleSheet.create({
   },
   removeProductText: {
     color: 'red',
-  },modalContainer: {
+  },
+  modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

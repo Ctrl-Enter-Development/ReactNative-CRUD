@@ -3,13 +3,16 @@ import React, { useContext, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useUserContext } from '../../contexts/UserContext';
 import { useProductContext } from '../../contexts/ProductContext';
+import { useSaleContext } from '../../contexts/SaleContext';
 import { Alert } from 'react-native';
 import { CustomHeader } from '../../components/CustomHeader'; 
+
 
 
 export default function AddSaleScreen({ navigation }) {
   const { users, updateUser } = useUserContext();
   const { productList } = useProductContext();
+  const { addSale } = useSaleContext(); 
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -20,24 +23,20 @@ export default function AddSaleScreen({ navigation }) {
         ...selectedUser,
         produtos: [...(selectedUser.produtos || []), selectedProduct.id],
       };
-  
-      // Atualize o usuário no contexto e exiba alertas
+
       updateUser(updatedUser);
+      addSale({ userId: selectedUser.id, productId: selectedProduct.id });
   
       // Exibir alerta de sucesso
       Alert.alert('Sucesso', 'Produto atribuído com sucesso ao usuário.');
   
       setSelectedUser(null);
       setSelectedProduct(null);
-  
-      console.log('Usuário selecionado:', updatedUser);
-      console.log('Produto selecionado:', selectedProduct);
     } else {
       // Exibir alerta de erro
       Alert.alert('Erro', 'Selecione um usuário e um produto para atribuir.');
     }
-  };
-  
+  };  
 
   return (
     <View style={styles.container}>

@@ -6,7 +6,9 @@ import { CustomHeader } from '../../components/CustomHeader';
 
 export default function DeleteUserScreen({ route, navigation }) {
   const { userId } = route.params;
-
+  const { users, removeUser } = useUserContext(); // Aqui obtenha a lista de usuários do contexto
+  const user = users.find((user) => user.id === userId);
+  
   if (!userId) {
     return (
       <View style={styles.container}>
@@ -15,16 +17,17 @@ export default function DeleteUserScreen({ route, navigation }) {
     );
   }
 
-  const { users, removeUser } = useUserContext(); // Aqui obtenha a lista de usuários do contexto
-  const user = users.find((user) => user.id === userId);
+ 
 
   if (!user) {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Usuário não encontrado</Text>
+        <Text style={styles.errorText}>Usuário não encontrado</Text>
       </View>
     );
   }
+  
+  const userProducts = user.produtos || [];
 
   const handleDeleteUser = () => {
     Alert.alert(
@@ -38,13 +41,14 @@ export default function DeleteUserScreen({ route, navigation }) {
         {
           text: 'Excluir',
           onPress: () => {
-            removeUser(userId);
+            removeUser(userId); // Assume que você importou e está usando useUserContext
             navigation.navigate('UserList');
           },
         },
       ]
     );
   };
+  
 
   return (
     <View style={styles.container}>

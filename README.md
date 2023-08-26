@@ -74,3 +74,57 @@ yarn start
 React Native
 React Navigation
 AsyncStorage
+
+#Estrutura
+
+├── src
+│   ├── components
+│   │   ├── Button.js
+│   │   ├── CustomHeader.js
+│   │   ├── CustomSideMenu.js
+│   │   ├── ...
+│   ├── screens
+│   │   ├── Home
+│   │   │   ├── HomeScreen.js
+│   │   ├── Users
+│   │   │   ├── AddUserScreen.js
+│   │   │   ├── UserListScreen.js
+│   │   │   ├── DeleteUserScreen.js
+│   │   │   ├── EditUserScreen.js
+│   │   │   ├── UserDetailScreen.js
+│   │   │   ├── UserListScreen.js
+│   │   │   ├── UserProvider.js
+│   │   │   ├── UserScreen.js
+│   │   │   ├── ...
+│   │   ├── Products
+│   │   │   ├── AddProductScreen.js
+│   │   │   ├── EditProductScreen.js
+│   │   │   ├── ProductDetailScreen.js
+│   │   │   ├── ProductListScreen.js
+│   │   │   ├── ProductScreen.js
+│   │   │   ├── ...
+│   │   ├── Sales
+│   │   │   ├── AddSaleScreen.js
+│   │   ├── Settings
+│   │   │   ├── SettingsScreen.js
+│   │   │   ├── ...
+│   │   ├── Details
+│   │   │   ├── ...
+│   ├── contexts
+│   │   ├── UserContext.js
+│   │   ├── ProductContext.js
+│   │   ├── SaleContext.js
+│   ├── navigation
+│   │   ├── AppNavigator.js
+│   │   ├── DrawerNavigator.js
+│   │   ├── ProductStack.js
+│   │   ├── UserStack.js
+│   │   ├── ...
+│   ├── data
+│   │   ├── database.json
+│   │   ├── ...
+│   ├── utils
+│   │   ├── api.js
+│   │   ├── ...
+├── App.js
+├── ...

@@ -5,6 +5,8 @@ import AddUserScreen from '../screens/Users/AddUserScreen';
 import UserDetailScreen from '../screens/Users/UserDetailScreen';
 import EditUserScreen from '../screens/Users/EditUserScreen';
 import DeleteUserScreen from '../screens/Users/DeleteUserScreen';
+import ProductListScreen from '../screens/Products/ProductListScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -20,6 +22,8 @@ export default function UserStack() {
       <Stack.Screen name="UserDetail" component={UserDetailScreen} />
       <Stack.Screen name="EditUser" component={EditUserScreen} />
       <Stack.Screen name="DeleteUser" component={DeleteUserScreen} />
+      <Stack.Screen name="ProductList" component={ProductListScreen} />
+
     </Stack.Navigator>
   );
 }

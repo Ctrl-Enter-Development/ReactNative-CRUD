@@ -1,7 +1,6 @@
-// UserProvider.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CustomHeader } from '../../components/CustomHeader'; 
+import * as FileSystem from 'expo-file-system';
 
 export const UserContext = createContext();
 
@@ -14,47 +13,57 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadUsersFromStorage() {
+    async function loadUsersFromDatabase() {
       try {
-        const existingUsers = await AsyncStorage.getItem('usuarios');
-        const usersData = existingUsers ? JSON.parse(existingUsers) : [];
+        const content = await FileSystem.readAsStringAsync(
+          FileSystem.documentDirectory + 'database.json'
+        );
+        const data = JSON.parse(content);
+        const usersData = data.users || [];
         setUsers(usersData);
         setLoading(false);
       } catch (error) {
-        console.error('Error loading users:', error);
+        console.error('Error loading users from database:', error);
         setLoading(false);
       }
     }
 
-    loadUsersFromStorage();
+    loadUsersFromDatabase();
   }, []);
 
-  const saveUsersToStorage = async (updatedUsers) => {
-    try {
-      await AsyncStorage.setItem('usuarios', JSON.stringify(updatedUsers));
-    } catch (error) {
-      console.error('Error saving users:', error);
+  useEffect(() => {
+    async function saveUsersToDatabase() {
+      try {
+        const data = { users };
+        await FileSystem.writeAsStringAsync(
+          FileSystem.documentDirectory + 'database.json',
+          JSON.stringify(data)
+        );
+      } catch (error) {
+        console.error('Error saving users to database:', error);
+      }
     }
-  };
+
+    if (!loading) {
+      saveUsersToDatabase();
+    }
+  }, [users, loading]);
 
   const addUser = async (user) => {
     const updatedUsers = [...users, user];
     setUsers(updatedUsers);
-    saveUsersToStorage(updatedUsers);
   };
 
-  const updateUser = (updatedUser) => {
+  const updateUser = async (updatedUser) => {
     const updatedUsers = users.map((user) =>
       user.id === updatedUser.id ? updatedUser : user
     );
     setUsers(updatedUsers);
-    saveUsersToStorage(updatedUsers);
   };
 
-  const removeUser = (userId) => {
+  const removeUser = async (userId) => {
     const updatedUsers = users.filter((user) => user.id !== userId);
     setUsers(updatedUsers);
-    saveUsersToStorage(updatedUsers);
   };
 
   return (

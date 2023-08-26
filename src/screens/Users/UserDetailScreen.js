@@ -2,12 +2,14 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { useUserContext } from '../../contexts/UserContext';
 import { useProductContext } from '../../contexts/ProductContext';
 import { CustomHeader } from '../../components/CustomHeader'; 
+import { useSaleContext } from '../../contexts/SaleContext';
 
 export default function UserDetailScreen({ route, navigation }) {
   const { userId } = route.params;
   const { users } = useUserContext();
   const { productList } = useProductContext();
   const user = users.find((user) => user.id === userId);
+  const { removeSale } = useSaleContext();
 
   if (!user) {
     return (
@@ -24,6 +26,26 @@ export default function UserDetailScreen({ route, navigation }) {
 
   // Calcule a soma dos valores dos produtos atribuídos ao usuário
   const totalValue = userProducts.reduce((total, product) => total + product.value, 0);
+
+
+  const handleRemoveProduct = (productId, saleId) => {
+    setSelectedProductToRemove(productId);
+    setSelectedSaleToRemove(saleId); // Store the saleId to remove
+    setIsConfirmationModalVisible(true);
+  };
+
+  const confirmRemoveProduct = () => {
+    if (selectedProductToRemove) {
+      const updatedProdutos = user.produtos.filter((productId) => productId !== selectedProductToRemove);
+      updateUser({ ...user, produtos: updatedProdutos });
+
+      removeSale(selectedSaleToRemove); // Use removeSale here
+
+      setIsConfirmationModalVisible(false);
+      setSelectedProductToRemove(null);
+      setSelectedSaleToRemove(null);
+    }
+  };
 
   return (
     <View style={styles.container}>

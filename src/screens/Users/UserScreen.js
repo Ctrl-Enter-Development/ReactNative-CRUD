@@ -8,25 +8,21 @@ export function UserScreen() {
   const [name, setName] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  const { addUser } = useUserContext(); 
+  
   const handleAddUser = async () => {
     if (name.trim() === '') {
       setErrorMessage('Por favor, insira um nome válido.');
       return;
     }
-
+  
     try {
       const newUser = {
         id: Date.now().toString(),
         name: name,
       };
-
-      const existingUsers = await AsyncStorage.getItem('usuarios');
-      const users = existingUsers ? JSON.parse(existingUsers) : [];
-      users.push(newUser);
-
-      await AsyncStorage.setItem('usuarios', JSON.stringify(users));
-
+  
+      addUser(newUser); // Assume que você importou e está usando useUserContext
       setName('');
       setSuccessMessage('Usuário cadastrado com sucesso.');
       setErrorMessage('');
