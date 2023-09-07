@@ -76,7 +76,7 @@ React Navigation
 AsyncStorage
 
 #Estrutura
-
+```shell
 ├── src
 │   ├── components
 │   │   ├── Button.js
@@ -128,3 +128,4 @@ AsyncStorage
 │   │   ├── ...
 ├── App.js
 ├── ...
+```
